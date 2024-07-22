@@ -1,0 +1,183 @@
+USE [master]
+GO
+
+CREATE DATABASE [REWORKAPP_BD]
+GO
+ 
+USE [REWORKAPP_BD]
+GO
+
+CREATE TABLE [dbo].[Error](
+	[id_error] [int] IDENTITY(1,1) NOT NULL,
+	[descripcion] [nvarchar](300) NOT NULL,
+	[id_usuario] [int] NOT NULL,
+	[fecha] [datetime] NOT NULL,
+ CONSTRAINT [PK_Error] PRIMARY KEY CLUSTERED 
+(
+	[id_error] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Parte_Tarjeta]    Script Date: 7/21/2024 7:37:57 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Parte_Tarjeta](
+	[id_parte_tarjeta] [int] IDENTITY(1,1) NOT NULL,
+	[numero_parte] [int] NOT NULL,
+	[id_tarjeta] [int] NOT NULL,
+ CONSTRAINT [PK_Parte_Tarjeta] PRIMARY KEY CLUSTERED 
+(
+	[id_parte_tarjeta] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Perfil]    Script Date: 7/21/2024 7:37:57 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Perfil](
+	[id_perfil] [int] IDENTITY(1,1) NOT NULL,
+	[nombre] [nvarchar](100) NOT NULL,
+ CONSTRAINT [PK_Perfil] PRIMARY KEY CLUSTERED 
+(
+	[id_perfil] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Solicitud]    Script Date: 7/21/2024 7:37:57 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Solicitud](
+	[id_solicitud] [int] IDENTITY(1,1) NOT NULL,
+	[id_usuario] [int] NOT NULL,
+	[id_tarjeta] [int] NOT NULL,
+	[id_tipo_rework] [int] NOT NULL,
+	[id_parte_tarjeta] [int] NOT NULL,
+	[comentario] [nvarchar](200) NOT NULL,
+	[fecha] [datetime] NOT NULL,
+ CONSTRAINT [PK_Solicitud] PRIMARY KEY CLUSTERED 
+(
+	[id_solicitud] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Tarjeta]    Script Date: 7/21/2024 7:37:57 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Tarjeta](
+	[id_tarjeta] [int] IDENTITY(1,1) NOT NULL,
+	[numero_serie] [int] NOT NULL,
+ CONSTRAINT [PK_Tarjeta] PRIMARY KEY CLUSTERED 
+(
+	[id_tarjeta] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Tipo_Rework]    Script Date: 7/21/2024 7:37:57 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Tipo_Rework](
+	[id_tipo_rework] [int] IDENTITY(1,1) NOT NULL,
+	[descripcion] [nvarchar](100) NOT NULL,
+ CONSTRAINT [PK_Tipo_Rework] PRIMARY KEY CLUSTERED 
+(
+	[id_tipo_rework] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Usuario]    Script Date: 7/21/2024 7:37:57 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Usuario](
+	[id_usuario] [int] IDENTITY(1,1) NOT NULL,
+	[nombre] [nvarchar](100) NOT NULL,
+	[correo] [nvarchar](100) NOT NULL,
+	[contrasenna] [nvarchar](100) NOT NULL,
+	[id_perfil] [int] NOT NULL,
+	[estado] [bit] NOT NULL,
+ CONSTRAINT [PK_Usuario] PRIMARY KEY CLUSTERED 
+(
+	[id_usuario] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET IDENTITY_INSERT [dbo].[Perfil] ON 
+GO
+INSERT [dbo].[Perfil] ([id_perfil], [nombre]) VALUES (1, N'Administrador')
+GO
+INSERT [dbo].[Perfil] ([id_perfil], [nombre]) VALUES (2, N'Técnico')
+GO
+INSERT [dbo].[Perfil] ([id_perfil], [nombre]) VALUES (3, N'Reworker')
+GO
+SET IDENTITY_INSERT [dbo].[Perfil] OFF
+GO
+/****** Object:  Index [UK_Parte_Tarjeta]    Script Date: 7/21/2024 7:37:57 PM ******/
+ALTER TABLE [dbo].[Parte_Tarjeta] ADD  CONSTRAINT [UK_Parte_Tarjeta] UNIQUE NONCLUSTERED 
+(
+	[numero_parte] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+/****** Object:  Index [UK_Tarjeta]    Script Date: 7/21/2024 7:37:57 PM ******/
+ALTER TABLE [dbo].[Tarjeta] ADD  CONSTRAINT [UK_Tarjeta] UNIQUE NONCLUSTERED 
+(
+	[numero_serie] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [UK_Usuario]    Script Date: 7/21/2024 7:37:57 PM ******/
+ALTER TABLE [dbo].[Usuario] ADD  CONSTRAINT [UK_Usuario] UNIQUE NONCLUSTERED 
+(
+	[correo] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Error]  WITH CHECK ADD  CONSTRAINT [FK_Error_Usuario] FOREIGN KEY([id_usuario])
+REFERENCES [dbo].[Usuario] ([id_usuario])
+GO
+ALTER TABLE [dbo].[Error] CHECK CONSTRAINT [FK_Error_Usuario]
+GO
+ALTER TABLE [dbo].[Parte_Tarjeta]  WITH CHECK ADD  CONSTRAINT [FK_Parte_Tarjeta_Tarjeta] FOREIGN KEY([id_tarjeta])
+REFERENCES [dbo].[Tarjeta] ([id_tarjeta])
+GO
+ALTER TABLE [dbo].[Parte_Tarjeta] CHECK CONSTRAINT [FK_Parte_Tarjeta_Tarjeta]
+GO
+ALTER TABLE [dbo].[Solicitud]  WITH CHECK ADD  CONSTRAINT [FK_Solicitud_Parte_Tarjeta] FOREIGN KEY([id_parte_tarjeta])
+REFERENCES [dbo].[Parte_Tarjeta] ([id_parte_tarjeta])
+GO
+ALTER TABLE [dbo].[Solicitud] CHECK CONSTRAINT [FK_Solicitud_Parte_Tarjeta]
+GO
+ALTER TABLE [dbo].[Solicitud]  WITH CHECK ADD  CONSTRAINT [FK_Solicitud_Tarjeta] FOREIGN KEY([id_tarjeta])
+REFERENCES [dbo].[Tarjeta] ([id_tarjeta])
+GO
+ALTER TABLE [dbo].[Solicitud] CHECK CONSTRAINT [FK_Solicitud_Tarjeta]
+GO
+ALTER TABLE [dbo].[Solicitud]  WITH CHECK ADD  CONSTRAINT [FK_Solicitud_Tipo_Rework] FOREIGN KEY([id_tipo_rework])
+REFERENCES [dbo].[Tipo_Rework] ([id_tipo_rework])
+GO
+ALTER TABLE [dbo].[Solicitud] CHECK CONSTRAINT [FK_Solicitud_Tipo_Rework]
+GO
+ALTER TABLE [dbo].[Solicitud]  WITH CHECK ADD  CONSTRAINT [FK_Solicitud_Usuario] FOREIGN KEY([id_usuario])
+REFERENCES [dbo].[Usuario] ([id_usuario])
+GO
+ALTER TABLE [dbo].[Solicitud] CHECK CONSTRAINT [FK_Solicitud_Usuario]
+GO
+ALTER TABLE [dbo].[Usuario]  WITH CHECK ADD  CONSTRAINT [FK_Usuario_Perfil] FOREIGN KEY([id_perfil])
+REFERENCES [dbo].[Perfil] ([id_perfil])
+GO
+ALTER TABLE [dbo].[Usuario] CHECK CONSTRAINT [FK_Usuario_Perfil]
+GO
+USE [master]
+GO
+ALTER DATABASE [REWORKAPP_BD] SET  READ_WRITE 
+GO
