@@ -9,98 +9,17 @@
 
     <title> Sistema Web </title>
 
-
     <link href="~/page/dist/css/bootstrap.min.css" rel="stylesheet">
-
     <link href="~/page/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-
     <link href="~/page/animate.css/animate.min.css" rel="stylesheet">
-
-
     <link href="~/page/nprogress/nprogress.css" rel="stylesheet">
-
-
     <link href="~/page/build/css/custom.min.css" rel="stylesheet">
 </head>
 
 <body class="login">
+
+
     @RenderBody()
-    <div>
-        <a class="hiddenanchor" id="signup"></a>
-        <a class="hiddenanchor" id="signin"></a>
-
-        <div class="login_wrapper">
-            <div class="animate form login_form">
-                <section class="login_content">
-                    <form method="post" action="/Home/Inicio">
-                        <h1>Inicio de sesión</h1>
-                        <div>
-                            <input type="text" class="form-control" placeholder="Usuario" required="" />
-                        </div>
-                        <div>
-                            <input type="password" class="form-control" placeholder="Contraseña" required="" />
-                        </div>
-                        <div>
-                            <button type="submit" class="btn btn-default submit">Ingresar</button>
-                            <a class="reset_pass" href="#">Recuperar contraseña</a>
-                        </div>
-
-                        <div class="clearfix"></div>
-
-                        <div class="separator">
-                            <p class="change_link">
-                                <a href="#signup" class="to_register"> Crear cuenta </a>
-                            </p>
-
-                            <div class="clearfix"></div>
-                            <br />
-
-                            <div>
-
-                                <p>©2024 Todos los derechos reservados.</p> Privacidad y términos</p>
-                            </div>
-                        </div>
-                    </form>
-
-                </section>
-            </div>
-
-<div id="register" class="animate form registration_form">
-    <section class="login_content">
-        <form>
-            <h1>Crear cuenta</h1>
-            <div>
-                <input type="text" class="form-control" placeholder="Usuario" required="" />
-            </div>
-            <div>
-                <input type="email" class="form-control" placeholder="Correo electrónico" required="" />
-            </div>
-            <div>
-                <input type="password" class="form-control" placeholder="Contraseña" required="" />
-            </div>
-            <div>
-                <a class="btn btn-default submit" href="index.html">Crear</a>
-            </div>
-
-            <div class="clearfix"></div>
-
-            <div class="separator">
-                <p class="change_link">
-                    Ya eres usuario?
-                    <a href="#signin" class="to_register"> Iniciar sesión </a>
-                </p>
-
-                <div class="clearfix"></div>
-                <br />
-
-                <div>
-                    <p>©2024 Todos los derechos reservados.</p> Privacidad y términos</p>
-                </div>
-            </div>
-        </form>
-    </section>
-</div>
-        </div>
-    </div>
+   
 </body>
 </html>

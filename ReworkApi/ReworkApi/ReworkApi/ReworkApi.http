@@ -1,0 +1,6 @@
+@ReworkApi_HostAddress = http://localhost:5268
+
+GET {{ReworkApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
