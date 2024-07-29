@@ -23,20 +23,36 @@ namespace ReworkApp.Controllers
             return View();
         }
 
+        //Solicitudes //
+
         public IActionResult Solicitudes()
         {
             return View();
         }
 
+        public IActionResult AgregarSolicitud()
+        {
+            return View();
+        }
+
+        //Tarjetas //
         public IActionResult Tarjetas()
         {
             return View();
         }
+        public IActionResult RegistrarTarjeta()
+        {
+            return View();
+        }
+
+        //Partes de la Tarjetas //
 
         public IActionResult PartesTarjetas()
         {
             return View();
         }
+
+        
 
         public IActionResult Usuarios()
         {
