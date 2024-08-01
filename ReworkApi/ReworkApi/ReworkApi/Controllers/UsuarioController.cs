@@ -47,6 +47,35 @@ namespace ReworkApi.Controllers
             }
         }
 
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("RegistrarUsuario")]
+        public async Task<IActionResult> RegistrarUsuario(Usuario ent)
+        {
+            Respuesta resp = new Respuesta();
+
+            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:DefaultConnection").Value))
+            {
+                var result = await context.ExecuteAsync("RegistrarUsuario", new { ent.Nombre, ent.Correo, ent.Contrasenna }, commandType: CommandType.StoredProcedure);
+
+                if (result > 0)
+                {
+                    resp.Codigo = 1;
+                    resp.Mensaje = "OK";
+                    resp.Contenido = true;
+                    return Ok(resp);
+                }
+                else
+                {
+                    resp.Codigo = 0;
+                    resp.Mensaje = "La información del usuario ya se encuentra registrada";
+                    resp.Contenido = false;
+                    return Ok(resp);
+                }
+            }
+        }
+
+
         private string GenerarToken(int Consecutivo)
         {
             string SecretKey = iConfiguration.GetSection("Llaves:SecretKey").Value!;

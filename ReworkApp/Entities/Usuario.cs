@@ -9,5 +9,7 @@
         public string? Token { get; set; }
         public string? Estado { get; set; }
 
+        public int id_perfil { get; set; }
+
     }
 }

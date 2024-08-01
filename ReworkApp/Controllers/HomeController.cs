@@ -27,13 +27,35 @@ namespace ReworkApp.Controllers
                 var datos = JsonSerializer.Deserialize<Usuario>((JsonElement)resp.Contenido!);
                 HttpContext.Session.SetString("TOKEN", datos!.Token!);
                 HttpContext.Session.SetString("NOMBRE", datos!.Nombre!);
+                HttpContext.Session.SetString("ROL", datos!.id_perfil.ToString());
                 HttpContext.Session.SetInt32("CONSECUTIVO", datos!.id_usuario);
-                return RedirectToAction("Home", "Inicio");
+                return RedirectToAction("Inicio", "Home");
             }
 
             ViewBag.msj = resp.Mensaje;
             return View();
         }
+
+        [HttpGet]
+        public IActionResult Registrar()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Registrar(Usuario ent)
+        {
+            ent.Contrasenna = iComunModel.Encrypt(ent.Contrasenna!);
+            var resp = iUsuarioModel.RegistrarUsuario(ent);
+
+            if (resp.Codigo == 1)
+                return RedirectToAction("Index", "Home");
+
+            ViewBag.msj = resp.Mensaje;
+            return View();
+        }
+
+
 
         [HttpGet]
         public IActionResult Inicio()
