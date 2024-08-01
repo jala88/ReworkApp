@@ -30,7 +30,7 @@ namespace ReworkApp.Controllers
         public IActionResult RegistrarTipoRework(TipoRework ent)
         {
             iTipoReworkModel.RegistrarTipoRework(ent);
-            return RedirectToAction("TipoReworks", "Admin");
+            return RedirectToAction("ConsultarTipoReworks", "Admin");
         }
 
         
