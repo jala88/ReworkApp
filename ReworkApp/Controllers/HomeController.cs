@@ -1,23 +1,41 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using ReworkApp.Entities;
 using ReworkApp.Models;
 using System.Diagnostics;
+using System.Text.Json;
 
 namespace ReworkApp.Controllers
 {
-    public class HomeController : Controller
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    public class HomeController(IUsuarioModel iUsuarioModel,IComunModel iComunModel) : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
 
         public IActionResult Index()
         {
             return View();
         }
 
+        [HttpPost]
+        public IActionResult Index(Usuario ent)
+        {
+            ent.Contrasenna = iComunModel.Encrypt(ent.Contrasenna!);
+            var resp = iUsuarioModel.IniciarSesion(ent);
+
+            if (resp.Codigo == 1)
+            {
+                var datos = JsonSerializer.Deserialize<Usuario>((JsonElement)resp.Contenido!);
+                HttpContext.Session.SetString("TOKEN", datos!.Token!);
+                HttpContext.Session.SetString("NOMBRE", datos!.Nombre!);
+                HttpContext.Session.SetInt32("CONSECUTIVO", datos!.id_usuario);
+                return RedirectToAction("Home", "Inicio");
+            }
+
+            ViewBag.msj = resp.Mensaje;
+            return View();
+        }
+
+        [HttpGet]
         public IActionResult Inicio()
         {
             return View();

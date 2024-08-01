@@ -5,7 +5,7 @@ using System.Net.Http;
 
 namespace ReworkApp.Models
 {
-    public class UsuarioModel(HttpClient httpClient, IConfiguration iConfiguration) 
+    public class UsuarioModel(HttpClient httpClient, IConfiguration iConfiguration) : IUsuarioModel
     {
         public Respuesta IniciarSesion(Usuario ent)
         {
