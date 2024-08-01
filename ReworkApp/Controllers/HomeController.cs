@@ -28,7 +28,7 @@ namespace ReworkApp.Controllers
                 HttpContext.Session.SetString("TOKEN", datos!.Token!);
                 HttpContext.Session.SetString("NOMBRE", datos!.Nombre!);
                 HttpContext.Session.SetInt32("CONSECUTIVO", datos!.id_usuario);
-                return RedirectToAction("Home", "Inicio");
+                return RedirectToAction("Inicio", "Home");
             }
 
             ViewBag.msj = resp.Mensaje;

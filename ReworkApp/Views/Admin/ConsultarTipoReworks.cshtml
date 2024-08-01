@@ -1,0 +1,48 @@
+﻿@model List<ReworkApp.Entities.TipoRework>
+
+@{
+    ViewData["Title"] = "Tipos de Rework";
+}
+
+<!-- page content -->
+<div class="right_col col-md-10 col-sm-10 container body" role="main">
+
+    <div class="row">
+        <div class="col-md-10 col-sm-10 ">
+
+            <div class="dashboard_graph">
+
+                <div class="row x_title">
+                    <div class="col-md-6 ">
+                        <h3>Tipos de Rework <small></small></h3>
+                        <br />
+                        <a href="@Url.Action("RegistrarTipoRework","Admin")" class="btn btn-primary">Nuevo tipo rework</a>
+                    </div>
+                </div>
+
+                <div class="row">
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-md-4 col-sm-6 mb-4">
+                            <div class="card border-secondary shadow-sm">
+                                <div class="card-body">
+                                    <h5 class="card-title">Id: @item.id_tipo_rework</h5>
+                                    <p class="card-text">Descripción: @item.descripcion</p>
+                                    <a href="@Url.Action("EditarTipoRework","Admin")" class="btn btn-primary">Editar</a>
+                                    <a href="@Url.Action("EliminarTipoRework","Admin")" class="btn btn-danger">Eliminar</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<br />
+
+</div>
+<!-- /page content -->
