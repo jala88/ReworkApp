@@ -1,11 +1,12 @@
 ﻿using Microsoft.Extensions.Configuration;
 using ReworkApp.Entities;
 using System.Net.Http;
+using System.Net.Http.Headers;
 
 
 namespace ReworkApp.Models
 {
-    public class UsuarioModel(HttpClient httpClient, IConfiguration iConfiguration) : IUsuarioModel
+    public class UsuarioModel(HttpClient httpClient, IConfiguration iConfiguration, IHttpContextAccessor iContextAccesor) : IUsuarioModel
     {
         public Respuesta IniciarSesion(Usuario ent)
         {
@@ -38,7 +39,41 @@ namespace ReworkApp.Models
             }
         }
 
+        public Respuesta ConsultarUsuarios()
+        {
+            using (httpClient)
+            {
+                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/ConsultarUsuarios";
+                string token = iContextAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
 
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                var resp = httpClient.GetAsync(url).Result;
+
+                if (resp.IsSuccessStatusCode)
+                    return resp.Content.ReadFromJsonAsync<Respuesta>().Result!;
+                else
+                    return new Respuesta();
+            }
+        }
+
+        public Respuesta ConsultarUsuario(int Consecutivo)
+        {
+            using (httpClient)
+            {
+                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/ConsultarUsuario?Consecutivo=" + Consecutivo;
+                string token = iContextAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
+
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                var resp = httpClient.GetAsync(url).Result;
+
+                if (resp.IsSuccessStatusCode)
+                    return resp.Content.ReadFromJsonAsync<Respuesta>().Result!;
+                else
+                    return new Respuesta();
+            }
+        }
 
     }
+
 }
+

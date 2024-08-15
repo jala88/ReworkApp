@@ -55,6 +55,20 @@ namespace ReworkApp.Controllers
             return View();
         }
 
+       
+        [HttpGet]
+        public IActionResult ConsultarUsuarios()
+        {
+            var resp = iUsuarioModel.ConsultarUsuarios();
+
+            if (resp.Codigo == 1)
+            {
+                var datos = JsonSerializer.Deserialize<List<Usuario>>((JsonElement)resp.Contenido!);
+                return View(datos!.Where(x => x.id_usuario != HttpContext.Session.GetInt32("CONSECUTIVO")).ToList());
+            }
+
+            return View(new List<Usuario>());
+        }
 
 
         [HttpGet]

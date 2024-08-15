@@ -2,23 +2,22 @@
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="images/favicon.ico" type="image/ico" />
 
-    <title>ReworkApp  </title>
-
+    <title>Gentelella Alela! | </title>
     <link href="~/page/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="~/page/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <link href="~/page/vendors/nprogress/nprogress.css" rel="stylesheet">
     <link href="~/page/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
-
     <link href="~/page/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
     <link href="~/page/vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet" />
     <link href="~/page/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
-
     <link href="~/page/build/css/custom.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap4.css">
 </head>
 
 <body class="nav-md">
@@ -27,51 +26,120 @@
             <div class="col-md-3 left_col">
                 <div class="left_col scroll-view">
                     <div class="navbar nav_title" style="border: 0;">
-                        <a href="@Url.Action("Inicio","Home")" class="site_title">@* <i class="fa fa-paw"></i> *@ <span>ReworkApp</span></a>
+                        <a href="index.html" class="site_title"><i class="fa fa-laptop"></i> <span>Rework App</span></a>
                     </div>
 
-                    <div class="clearfix"></div>
+                    <div class="profile clearfix">
+                      
+                    </div>
 
                     <br />
 
-                    <!-- sidebar menu -->
                     <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
                         <div class="menu_section">
-                            <h3><i class="fa fa-home"></i>Menu General</h3>
+                            <h3>Usuarios</h3>
                             <ul class="nav side-menu">
-                                <li >
-                                    <a href="@Url.Action("Solicitudes","Home")"><i class="fa fa-table"></i> Solcitudes</a>
-                                    
+                                <li>
+                                    <a href="@Url.Action("ConsultarUsuarios","Home")"><i class="fa fa-table"></i> Consulta Usuarios</a>
+
                                 </li>
                                 <li>
                                     <a href="@Url.Action("Tarjetas","Home")"><i class="fa fa-table"></i> Tarjetas </a>
-                                    
+
                                 </li>
                                 <li>
                                     <a href="@Url.Action("ConsultarTipoReworks","Admin")"><i class="fa fa-table"></i> Tipos de Reworks</a>
-                                    
+
                                 </li>
                                 <li>
                                     <a><i class="fa fa-table"></i> Usuarios</a>
-                                    
+
                                 </li>
                             </ul>
                         </div>
-                        
 
                     </div>
-                    <!-- /sidebar menu -->
-                    
+
+
+
+                    <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                        <div class="menu_section">
+                            <h3>Procesos</h3>
+                            <ul class="nav side-menu">
+                                <li>
+                                    <a href="@Url.Action("Solicitudes","Home")"><i class="fa fa-table"></i> Solcitudes</a>
+
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Tarjetas","Home")"><i class="fa fa-table"></i> Tarjetas </a>
+
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("ConsultarTipoReworks","Admin")"><i class="fa fa-table"></i> Tipos de Reworks</a>
+
+                                </li>
+                                <li>
+                                    <a><i class="fa fa-table"></i> Usuarios</a>
+
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+                  
+                    <div class="sidebar-footer hidden-small">
+                        <a data-toggle="tooltip" data-placement="top" title="Settings">
+                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                        </a>
+                        <a data-toggle="tooltip" data-placement="top" title="FullScreen">
+                            <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+                        </a>
+                        <a data-toggle="tooltip" data-placement="top" title="Lock">
+                            <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+                        </a>
+                        <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
+                            <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                        </a>
+                    </div>
+                  
                 </div>
             </div>
 
+         
+            <div class="top_nav">
+                <div class="nav_menu">
+                    <div class="nav toggle">
+                        <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                    </div>
+                    <nav class="nav navbar-nav">
+                        <ul class=" navbar-right">
+                            <li class="nav-item dropdown open" style="padding-left: 15px;">
+                                <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa fa-user"></i>  @Context.Session.GetString("NOMBRE")!.ToString()
+                                </a>
+                                <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="javascript:;"> Perfil</a>
+                                    <a class="dropdown-item" href="javascript:;">Seguridad</a>
+                                    <a class="dropdown-item" href="@Url.Action("ConsultarTipoReworks","Admin")"><i class="fa fa-sign-out pull-right"></i>Cerrar sesión</a>
+                                </div>
+                            </li>
 
-            <!-- /body -->
-            @RenderBody()
-            <!-- footer content -->
+                            
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+            <div class="content-wrapper">
+
+                <section class="content">
+                    @RenderBody()
+                </section>
+            </div>
+
             <footer>
                 <div class="pull-right">
-                    ReworkApp
+                    Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
                 </div>
                 <div class="clearfix"></div>
             </footer>
@@ -79,6 +147,7 @@
         </div>
     </div>
 
+    <!-- jQuery -->
     <!-- jQuery -->
     <script src="~/page/vendors/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap -->
@@ -98,27 +167,31 @@
     <!-- Skycons -->
     <script src="~/page/vendors/skycons/skycons.js"></script>
     <!-- Flot -->
-    <script src="../vendors/Flot/jquery.flot.js"></script>
-    <script src="../vendors/Flot/jquery.flot.pie.js"></script>
-    <script src="../vendors/Flot/jquery.flot.time.js"></script>
-    <script src="../vendors/Flot/jquery.flot.stack.js"></script>
-    <script src="../vendors/Flot/jquery.flot.resize.js"></script>
+    <script src="~/page/vendors/Flot/jquery.flot.js"></script>
+    <script src="~/page/vendors/Flot/jquery.flot.pie.js"></script>
+    <script src="~/page/vendors/Flot/jquery.flot.time.js"></script>
+    <script src="~/page/vendors/Flot/jquery.flot.stack.js"></script>
+    <script src="~/page/vendors/Flot/jquery.flot.resize.js"></script>
     <!-- Flot plugins -->
-    <script src="../vendors/flot.orderbars/js/jquery.flot.orderBars.js"></script>
-    <script src="../vendors/flot-spline/js/jquery.flot.spline.min.js"></script>
-    <script src="../vendors/flot.curvedlines/curvedLines.js"></script>
+    <script src="~/page/vendors/flot.orderbars/js/jquery.flot.orderBars.js"></script>
+    <script src="~/page/vendors/flot-spline/js/jquery.flot.spline.min.js"></script>
+    <script src="~/page/vendors/flot.curvedlines/curvedLines.js"></script>
     <!-- DateJS -->
-    <script src="../vendors/DateJS/build/date.js"></script>
+    <script src="~/page/vendors/DateJS/build/date.js"></script>
     <!-- JQVMap -->
-    <script src="../vendors/jqvmap/dist/jquery.vmap.js"></script>
-    <script src="../vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
-    <script src="../vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
+    <script src="~/page/vendors/jqvmap/dist/jquery.vmap.js"></script>
+    <script src="~/page/vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
+    <script src="~/page/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
     <!-- bootstrap-daterangepicker -->
-    <script src="../vendors/moment/min/moment.min.js"></script>
-    <script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script src="~/page/vendors/moment/min/moment.min.js"></script>
+    <script src="~/page/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
 
     <!-- Custom Theme Scripts -->
-    <script src="../build/js/custom.min.js"></script>
+    <script src="~/page/build/js/custom.min.js"></script>
+
+    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap4.js"></script>
 
 </body>
 </html>
+

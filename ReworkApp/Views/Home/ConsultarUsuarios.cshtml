@@ -1,0 +1,47 @@
+﻿@model List<ReworkApp.Entities.Usuario>
+
+@{
+    ViewData["Title"] = "Principal";
+   
+}
+
+<div class="card-body register-card-body">
+    <h4 class="">Datos del usuario</h4>
+    <hr><br />
+
+    <table id="tabla" class="table table-hover">
+        <thead>
+            <tr>
+                
+                <th>Nombre</th>
+                <th>Correo</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                   
+                    <td>@item.Nombre</td>
+                    <td>@item.Correo</td>
+                    <td>@item.Estado</td>
+                    <td>
+                        <a href="@Url.Action("ActualizarUsuario","Home", new { q = item.id_usuario})">
+                            <i class="fa fa-user"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+<script src="~/page/jquery/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var table = new DataTable("#tabla-Usuarios");
+        });
+</script>
+
