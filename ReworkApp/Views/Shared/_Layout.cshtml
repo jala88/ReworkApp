@@ -34,32 +34,33 @@
                     </div>
 
                     <br />
+                     @if (Context.Session.GetString("ROL")!.ToString() == "1")
+                    {
+                        <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                            <div class="menu_section">
+                                <h3>Usuarios</h3>
+                                <ul class="nav side-menu">
+                                    <li>
+                                        <a href="@Url.Action("ConsultarUsuarios","Home")"><i class="fa fa-table"></i> Consulta Usuarios</a>
 
-                    <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
-                        <div class="menu_section">
-                            <h3>Usuarios</h3>
-                            <ul class="nav side-menu">
-                                <li>
-                                    <a href="@Url.Action("ConsultarUsuarios","Home")"><i class="fa fa-table"></i> Consulta Usuarios</a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("Tarjetas","Home")"><i class="fa fa-table"></i> Tarjetas </a>
 
-                                </li>
-                                <li>
-                                    <a href="@Url.Action("Tarjetas","Home")"><i class="fa fa-table"></i> Tarjetas </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("ConsultarTipoReworks","Admin")"><i class="fa fa-table"></i> Tipos de Reworks</a>
 
-                                </li>
-                                <li>
-                                    <a href="@Url.Action("ConsultarTipoReworks","Admin")"><i class="fa fa-table"></i> Tipos de Reworks</a>
+                                    </li>
+                                    <li>
+                                        <a><i class="fa fa-table"></i> Usuarios</a>
 
-                                </li>
-                                <li>
-                                    <a><i class="fa fa-table"></i> Usuarios</a>
+                                    </li>
+                                </ul>
+                            </div>
 
-                                </li>
-                            </ul>
                         </div>
-
-                    </div>
-
+                    }
 
 
                     <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
@@ -120,7 +121,7 @@
                                 <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="javascript:;"> Perfil</a>
                                     <a class="dropdown-item" href="javascript:;">Seguridad</a>
-                                    <a class="dropdown-item" href="@Url.Action("ConsultarTipoReworks","Admin")"><i class="fa fa-sign-out pull-right"></i>Cerrar sesión</a>
+                                    <a class="dropdown-item" href="@Url.Action("Salir","Home")"><i class="fa fa-sign-out pull-right"></i>Cerrar sesión</a>
                                 </div>
                             </li>
 
@@ -147,7 +148,6 @@
         </div>
     </div>
 
-    <!-- jQuery -->
     <!-- jQuery -->
     <script src="~/page/vendors/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap -->
@@ -185,12 +185,11 @@
     <!-- bootstrap-daterangepicker -->
     <script src="~/page/vendors/moment/min/moment.min.js"></script>
     <script src="~/page/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
-
     <!-- Custom Theme Scripts -->
     <script src="~/page/build/js/custom.min.js"></script>
-
     <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap4.js"></script>
+   
 
 </body>
 </html>

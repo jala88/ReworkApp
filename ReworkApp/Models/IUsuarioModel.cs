@@ -10,6 +10,10 @@ namespace ReworkApp.Models
 
         Respuesta ConsultarUsuarios();
 
-        Respuesta ConsultarUsuario(int Consecutivo);
+        Respuesta ConsultarUsuario(int id_usuario);
+
+        Respuesta ActualizarUsuario(Usuario ent);
+
+        Respuesta RecuperarAcceso(string correo);
     }
 }

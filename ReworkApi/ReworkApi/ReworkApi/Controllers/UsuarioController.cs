@@ -4,8 +4,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using ReworkApi.Entities;
+using ReworkApi.Models;
 using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -15,7 +17,7 @@ namespace ReworkApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsuarioController(IConfiguration iConfiguration) : ControllerBase
+    public class UsuarioController(IConfiguration iConfiguration, IComunModel iComunesModel, IHostEnvironment iHost) : ControllerBase
     {
         [AllowAnonymous]
         [HttpPost]
@@ -26,7 +28,7 @@ namespace ReworkApi.Controllers
 
             using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:DefaultConnection").Value))
             {
-                var result = await context.QueryFirstAsync<Usuario>("IniciarSesion", new { ent.Correo, ent.Contrasenna }, commandType: CommandType.StoredProcedure);
+                var result = await context.QueryFirstOrDefaultAsync<Usuario>("IniciarSesion", new { ent.Correo, ent.Contrasenna }, commandType: CommandType.StoredProcedure);
 
                 if (result != null)
                 {
@@ -75,11 +77,13 @@ namespace ReworkApi.Controllers
             }
         }
 
-        [Authorize]
+       
         [HttpGet]
         [Route("ConsultarUsuarios")]
         public async Task<IActionResult> ConsultarUsuarios()
         {
+            if (!EsAdministrador())
+                return StatusCode(403);
 
             Respuesta resp = new Respuesta();
 
@@ -107,15 +111,16 @@ namespace ReworkApi.Controllers
         [Authorize]
         [HttpGet]
         [Route("ConsultarUsuario")]
-        public async Task<IActionResult> ConsultarUsuario(int Consecutivo)
+        public async Task<IActionResult> ConsultarUsuario(int id_usuario)
         {
-           
+            if (!EsAdministrador())
+                return StatusCode(403);
 
             Respuesta resp = new Respuesta();
 
             using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:DefaultConnection").Value))
             {
-                var result = await context.QueryFirstOrDefaultAsync<Usuario>("ConsultarUsuario", new { Consecutivo }, commandType: CommandType.StoredProcedure);
+                var result = await context.QueryFirstOrDefaultAsync<Usuario>("ConsultarUsuario", new { id_usuario }, commandType: CommandType.StoredProcedure);
 
                 if (result != null)
                 {
@@ -128,6 +133,82 @@ namespace ReworkApi.Controllers
                 {
                     resp.Codigo = 0;
                     resp.Mensaje = "No hay usuarios registrados en este momento";
+                    resp.Contenido = false;
+                    return Ok(resp);
+                }
+            }
+        }
+
+        [Authorize]
+        [HttpPut]
+        [Route("ActualizarUsuario")]
+        public async Task<IActionResult> ActualizarUsuario(Usuario ent)
+        {
+            if (!EsAdministrador())
+                return StatusCode(403);
+
+            Respuesta resp = new Respuesta();
+
+            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:DefaultConnection").Value))
+            {
+                var result = await context.ExecuteAsync("ActualizarUsuario", new { ent.id_usuario, ent.Nombre, ent.Correo, ent.id_perfil}, commandType: CommandType.StoredProcedure);
+
+                if (result > 0)
+                {
+                    resp.Codigo = 1;
+                    resp.Mensaje = "OK";
+                    resp.Contenido = true;
+                    return Ok(resp);
+                }
+                else
+                {
+                    resp.Codigo = 0;
+                    resp.Mensaje = "La información del usuario no se pudo actualizar";
+                    resp.Contenido = false;
+                    return Ok(resp);
+                }
+            }
+        }
+
+        [HttpGet]
+        [Route("RecuperarAcceso")]
+        public async Task<IActionResult> RecuperarAcceso(string correo)
+        {
+            Respuesta resp = new Respuesta();
+
+            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:DefaultConnection").Value))
+            {
+                var result = await context.QueryFirstOrDefaultAsync<Usuario>("ConsultarUsuarioCorreo", new { correo }, commandType: CommandType.StoredProcedure);
+
+                if (result != null)
+                {
+                    var CodigoAleatorio = iComunesModel.GenerarCodigo();
+                    var Contrasenna = iComunesModel.Encrypt(CodigoAleatorio);
+                    var EsTemporal = true;
+                    var VigenciaTemporal = DateTime.Now.AddMinutes(30);
+
+                    await context.ExecuteAsync("ActualizarContrasenna",
+                        new { result.Correo, Contrasenna, EsTemporal, VigenciaTemporal },
+                        commandType: CommandType.StoredProcedure);
+
+                    var ruta = Path.Combine(iHost.ContentRootPath, "FormatoCorreo.html");
+                    var html = System.IO.File.ReadAllText(ruta);
+
+                    html = html.Replace("@@Nombre", result.Nombre);
+                    html = html.Replace("@@Contrasenna", CodigoAleatorio);
+                    html = html.Replace("@@Vencimiento", VigenciaTemporal.ToString("dd/MM/yyyy HH:mm"));
+
+                    iComunesModel.EnviarCorreo(result.Correo!, "Recuperar Acceso Sistema", html);
+
+                    resp.Codigo = 1;
+                    resp.Mensaje = "OK";
+                    resp.Contenido = result;
+                    return Ok(resp);
+                }
+                else
+                {
+                    resp.Codigo = 0;
+                    resp.Mensaje = "No hay usuarios registrados con esa identificación";
                     resp.Contenido = false;
                     return Ok(resp);
                 }
@@ -155,6 +236,12 @@ namespace ReworkApi.Controllers
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        
+        private bool EsAdministrador()
+        {
+            var userrol = User.Claims.Select(Claim => new { Claim.Type, Claim.Value })
+                .FirstOrDefault(x => x.Type == "id_perfil")!.Value;
+
+            return (userrol == "1" ? true : false);
+        }
     }
 }

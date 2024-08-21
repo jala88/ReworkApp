@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ReworkApp.Entities;
 using ReworkApp.Models;
 using System.Diagnostics;
@@ -8,7 +9,7 @@ using System.Text.Json;
 namespace ReworkApp.Controllers
 {
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public class HomeController(IUsuarioModel iUsuarioModel,IComunModel iComunModel) : Controller
+    public class HomeController(IUsuarioModel iUsuarioModel,IComunModel iComunModel, IRolModel iRolModel) : Controller
     {
 
         public IActionResult Index()
@@ -55,7 +56,26 @@ namespace ReworkApp.Controllers
             return View();
         }
 
-       
+        [HttpGet]
+        public IActionResult RecuperarAcceso()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult RecuperarAcceso(Usuario ent)
+        {
+            var resp = iUsuarioModel.RecuperarAcceso(ent.Correo!);
+
+            if (resp.Codigo == 1)
+                return RedirectToAction("Index", "Home");
+
+            ViewBag.msj = resp.Mensaje;
+            return View();
+        }
+
+
+        [FiltroSesiones]
         [HttpGet]
         public IActionResult ConsultarUsuarios()
         {
@@ -70,11 +90,51 @@ namespace ReworkApp.Controllers
             return View(new List<Usuario>());
         }
 
+        [FiltroSesiones]
+        [HttpGet]
+        public IActionResult ActualizarUsuario(int q)
+        {
+            var roles = iRolModel.ConsultarRoles();
+            ViewBag.Roles = JsonSerializer.Deserialize<List<SelectListItem>>((JsonElement)roles.Contenido!);
 
+            var resp = iUsuarioModel.ConsultarUsuario(q);
+
+            if (resp.Codigo == 1)
+            {
+                var datos = JsonSerializer.Deserialize<Usuario>((JsonElement)resp.Contenido!);
+                return View(datos);
+            }
+
+            return View(new Usuario());
+        }
+
+        [FiltroSesiones]
+        [HttpPost]
+        public IActionResult ActualizarUsuario(Usuario ent)
+        {
+            var resp = iUsuarioModel.ActualizarUsuario(ent);
+
+            if (resp.Codigo == 1)
+                return RedirectToAction("ConsultarUsuarios", "Home");
+
+            ViewBag.msj = resp.Mensaje;
+            return View();
+        }
+
+
+        [FiltroSesiones]
         [HttpGet]
         public IActionResult Inicio()
         {
             return View();
+        }
+
+        [FiltroSesiones]
+        [HttpGet]
+        public IActionResult Salir()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index", "Home");
         }
 
         //Solicitudes //

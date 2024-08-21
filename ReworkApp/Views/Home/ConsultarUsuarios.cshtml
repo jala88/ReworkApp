@@ -4,17 +4,19 @@
     ViewData["Title"] = "Principal";
    
 }
+<div class="right_col col-md-6 col-sm-10 container body" role="main">
 
 <div class="card-body register-card-body">
     <h4 class="">Datos del usuario</h4>
     <hr><br />
 
-    <table id="tabla" class="table table-hover">
+        <table id="tabla-Usuarios" class="table table-hover table-bordered table-info">
         <thead>
             <tr>
-                
+
                 <th>Nombre</th>
                 <th>Correo</th>
+                <th>Rol</th>
                 <th>Estado</th>
                 <th>Acciones</th>
             </tr>
@@ -26,7 +28,9 @@
                    
                     <td>@item.Nombre</td>
                     <td>@item.Correo</td>
+                    <td>@item.Descripcion</td>
                     <td>@item.Estado</td>
+
                     <td>
                         <a href="@Url.Action("ActualizarUsuario","Home", new { q = item.id_usuario})">
                             <i class="fa fa-user"></i>
@@ -37,11 +41,9 @@
         </tbody>
     </table>
 
+  </div>
 </div>
-<script src="~/page/jquery/jquery.min.js"></script>
-<script>
-    $(document).ready(function () {
-        var table = new DataTable("#tabla-Usuarios");
-        });
-</script>
+<script src="~/Page/jquery/jquery.min.js"></script>
+<script src="~/js/ConsultaUsuarios.js"></script>
+
 

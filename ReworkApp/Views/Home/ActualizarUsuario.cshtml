@@ -1,0 +1,70 @@
+﻿@model ReworkApp.Entities.Usuario
+    
+@{
+    ViewData["Title"] = "Principal";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<div class="right_col col-md-10 col-sm-10 container body" role="main">
+
+    
+        <h4 class="">Datos del usuario</h4>
+        <hr><br />
+
+        @if (ViewBag.msj != null)
+        {
+            <div class="alert alert-secondary" style="text-align:center" role="alert">
+                @ViewBag.msj
+            </div>
+        }
+
+        <div class="row">
+            <div class="col-3">
+            </div>
+            <div class="col-6">
+
+                @using (Html.BeginForm("ActualizarUsuario", "Home"))
+                {
+                    @Html.HiddenFor(m => m.id_usuario)
+
+                    @Html.Label("Nombre")
+                    <div class="input-group mb-3">
+                        @Html.TextBoxFor(m => m.Nombre, new { @type = "text", @class = "form-control", @placeholder = "Nombre" })
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-user"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    @Html.Label("Correo Electrónico")
+                    <div class="input-group mb-3">
+                        @Html.TextBoxFor(m => m.Correo, new { @type = "email", @class = "form-control", @placeholder = "Correo Electrónico" })
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-envelope"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                  @Html.Label("Perfil")
+                  <div class="input-group mb-3">
+                    @Html.DropDownListFor(m => m.id_perfil, ViewBag.Roles as List<SelectListItem>, new { @class = "form-control" })
+                  </div>
+
+                    <div class="row">
+                        <div class="col-8">
+                        </div>
+                        <div class="col-6">
+                            <button type="submit" class="btn btn-primary btn-block">Procesar</button>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+
+ 
+  
+</div>

@@ -1,0 +1,48 @@
+﻿@model ReworkApp.Entities.Usuario
+
+@{
+    ViewData["Title"] = "Inicio Sesión";
+    Layout = "~/Views/Shared/_LayoutExterno.cshtml";
+
+}
+
+<div class="text-center">
+    <div>
+        <a class="hiddenanchor" id="signup"></a>
+        <a class="hiddenanchor" id="signin"></a>
+
+        <div class="login_wrapper">
+            <div class="animate form login_form">
+                <section class="login_content">
+
+
+
+                    <h1>Recuperar contraseña</h1>
+                    @using (Html.BeginForm("RecuperarAcceso", "Home"))
+                    {
+                        <div>
+                            @Html.TextBoxFor(m => m.Correo, new { @type = "text", @class = "form-control", @placeholder = "Correo Electrónico" })
+                        </div>
+                        
+                            <button type="submit" class="btn btn-default submit">Procesar</button>
+
+
+                        <div class="clearfix"></div>
+                    }
+                    <p class="mb-0">
+                        <a href="@Url.Action("Index","Home")" class="text-center">Quiero Iniciar Sesión</a>
+                    </p>
+                    <br />
+
+                    <div>
+
+                        <p>©2024 Todos los derechos reservados.</p> Privacidad y términos</p>
+                    </div>
+            </div>
+
+
+            </section>
+        </div>
+    </div>
+</div>
+    </div>

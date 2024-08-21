@@ -56,14 +56,48 @@ namespace ReworkApp.Models
             }
         }
 
-        public Respuesta ConsultarUsuario(int Consecutivo)
+        public Respuesta ConsultarUsuario(int id_usuario)
         {
             using (httpClient)
             {
-                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/ConsultarUsuario?Consecutivo=" + Consecutivo;
+                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/ConsultarUsuario?id_usuario=" + id_usuario;
                 string token = iContextAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
 
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                var resp = httpClient.GetAsync(url).Result;
+
+                if (resp.IsSuccessStatusCode)
+                    return resp.Content.ReadFromJsonAsync<Respuesta>().Result!;
+                else
+                    return new Respuesta();
+            }
+        }
+
+
+        public Respuesta ActualizarUsuario(Usuario ent)
+        {
+            using (httpClient)
+            {
+                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/ActualizarUsuario";
+                string token = iContextAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
+
+                JsonContent body = JsonContent.Create(ent);
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                var resp = httpClient.PutAsync(url, body).Result;
+
+                if (resp.IsSuccessStatusCode)
+                    return resp.Content.ReadFromJsonAsync<Respuesta>().Result!;
+                else
+                    return new Respuesta();
+            }
+        }
+
+        public Respuesta RecuperarAcceso(string correo)
+        {
+            using (httpClient)
+            {
+                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/RecuperarAcceso?correo=" + correo;
+
                 var resp = httpClient.GetAsync(url).Result;
 
                 if (resp.IsSuccessStatusCode)
