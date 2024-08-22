@@ -65,7 +65,7 @@ namespace ReworkApp.Controllers
         [HttpPost]
         public IActionResult RecuperarAcceso(Usuario ent)
         {
-            var resp = iUsuarioModel.RecuperarAcceso(ent.Correo!);
+            var resp = iUsuarioModel.RecuperarAcceso(ent.Nombre!);
 
             if (resp.Codigo == 1)
                 return RedirectToAction("Index", "Home");

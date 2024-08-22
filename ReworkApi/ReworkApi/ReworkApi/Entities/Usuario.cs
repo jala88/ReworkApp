@@ -12,5 +12,8 @@
         public string? Descripcion { get; set; }
 
         public int id_perfil { get; set; }
+
+        public bool EsTemporal { get; set; }
+        public DateTime VigenciaTemporal { get; set; }
     }
 }

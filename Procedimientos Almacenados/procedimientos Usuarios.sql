@@ -1,4 +1,4 @@
-CREATE PROCEDURE [dbo].[IniciarSesion]
+Alter PROCEDURE [dbo].[IniciarSesion]
 	@Correo			varchar(100),
 	@Contrasenna	varchar(100)
 AS
@@ -92,8 +92,8 @@ BEGIN
 
 END
 
-CREATE PROCEDURE [dbo].[ConsultarUsuarioCorreo]
-	@correo varchar(100)
+CREATE PROCEDURE [dbo].[ConsultarUsuarioNombre]
+	@Nombre varchar(100)
 AS
 BEGIN
 
@@ -101,13 +101,13 @@ BEGIN
 	CASE WHEN Estado = 1 THEN 'Activo' ELSE 'Inactivo' END 'Estado',R.Descripcion
 	FROM	dbo.Usuario U
 	INNER JOIN dbo.Perfil  R ON U.id_perfil = R.id_perfil
-	WHERE correo = @correo
+	WHERE Nombre = @Nombre
 
 END
 GO
 
-CREATE PROCEDURE [dbo].[ActualizarContrasenna]
-	@Correo VARCHAR(100), 
+ALTER PROCEDURE [dbo].[ActualizarContrasenna]
+	@id_usuario int, 
 	@Contrasenna VARCHAR(100),
 	@EsTemporal	 BIT, 
 	@VigenciaTemporal DATETIME
@@ -118,10 +118,10 @@ BEGIN
 	   SET Contrasenna = @Contrasenna,
 		   EsTemporal = @EsTemporal,
 		   VigenciaTemporal = @VigenciaTemporal
-	 WHERE correo = @Correo
+	 WHERE id_usuario = @id_usuario
 
 END
 
 select * from usuario
 
-exec ConsultarUsuarioCorreo 'admin@gmail.com'
+exec ConsultarUsuarioNombre 'jesus'

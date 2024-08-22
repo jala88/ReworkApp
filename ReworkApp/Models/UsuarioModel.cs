@@ -92,11 +92,11 @@ namespace ReworkApp.Models
             }
         }
 
-        public Respuesta RecuperarAcceso(string correo)
+        public Respuesta RecuperarAcceso(string Nombre)
         {
             using (httpClient)
             {
-                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/RecuperarAcceso?correo=" + correo;
+                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/RecuperarAcceso?Nombre=" + Nombre;
 
                 var resp = httpClient.GetAsync(url).Result;
 

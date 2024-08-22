@@ -3,6 +3,7 @@ using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using ReworkApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,7 @@ string SecretKey = builder.Configuration["Llaves:SecretKey"]!.ToString();
 builder.Services.AddControllers().AddJsonOptions(x => { x.JsonSerializerOptions.PropertyNamingPolicy = null; });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<IComunModel, ComunModel>();
 
 builder.Services.AddSwaggerGen(options =>
 {

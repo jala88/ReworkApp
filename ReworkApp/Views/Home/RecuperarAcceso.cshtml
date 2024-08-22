@@ -18,10 +18,18 @@
 
 
                     <h1>Recuperar contraseña</h1>
+
+                    @if (ViewBag.msj != null)
+                    {
+                        <div class="alert alert-secondary" style="text-align:center" role="alert">
+                            @ViewBag.msj
+                        </div>
+                    }
+
                     @using (Html.BeginForm("RecuperarAcceso", "Home"))
                     {
                         <div>
-                            @Html.TextBoxFor(m => m.Correo, new { @type = "text", @class = "form-control", @placeholder = "Correo Electrónico" })
+                            @Html.TextBoxFor(m => m.Nombre, new { @type = "text", @class = "form-control", @placeholder = "Nombre" })
                         </div>
                         
                             <button type="submit" class="btn btn-default submit">Procesar</button>

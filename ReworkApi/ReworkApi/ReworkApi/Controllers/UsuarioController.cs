@@ -17,7 +17,7 @@ namespace ReworkApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsuarioController(IConfiguration iConfiguration, IComunModel iComunesModel, IHostEnvironment iHost) : ControllerBase
+    public class UsuarioController(IConfiguration iConfiguration, IComunModel iComunModel, IHostEnvironment iHost) : ControllerBase
     {
         [AllowAnonymous]
         [HttpPost]
@@ -108,7 +108,7 @@ namespace ReworkApi.Controllers
             }
         }
 
-        [Authorize]
+        
         [HttpGet]
         [Route("ConsultarUsuario")]
         public async Task<IActionResult> ConsultarUsuario(int id_usuario)
@@ -172,23 +172,23 @@ namespace ReworkApi.Controllers
 
         [HttpGet]
         [Route("RecuperarAcceso")]
-        public async Task<IActionResult> RecuperarAcceso(string correo)
+        public async Task<IActionResult> RecuperarAcceso(string Nombre)
         {
             Respuesta resp = new Respuesta();
 
             using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:DefaultConnection").Value))
             {
-                var result = await context.QueryFirstOrDefaultAsync<Usuario>("ConsultarUsuarioCorreo", new { correo }, commandType: CommandType.StoredProcedure);
+                var result = await context.QueryFirstOrDefaultAsync<Usuario>("ConsultarUsuarioNombre", new { Nombre }, commandType: CommandType.StoredProcedure);
 
                 if (result != null)
                 {
-                    var CodigoAleatorio = iComunesModel.GenerarCodigo();
-                    var Contrasenna = iComunesModel.Encrypt(CodigoAleatorio);
+                    var CodigoAleatorio = iComunModel.GenerarCodigo();
+                    var Contrasenna = iComunModel.Encrypt(CodigoAleatorio);
                     var EsTemporal = true;
                     var VigenciaTemporal = DateTime.Now.AddMinutes(30);
 
                     await context.ExecuteAsync("ActualizarContrasenna",
-                        new { result.Correo, Contrasenna, EsTemporal, VigenciaTemporal },
+                        new { result.id_usuario, Contrasenna, EsTemporal, VigenciaTemporal },
                         commandType: CommandType.StoredProcedure);
 
                     var ruta = Path.Combine(iHost.ContentRootPath, "FormatoCorreo.html");
@@ -198,7 +198,7 @@ namespace ReworkApi.Controllers
                     html = html.Replace("@@Contrasenna", CodigoAleatorio);
                     html = html.Replace("@@Vencimiento", VigenciaTemporal.ToString("dd/MM/yyyy HH:mm"));
 
-                    iComunesModel.EnviarCorreo(result.Correo!, "Recuperar Acceso Sistema", html);
+                    iComunModel.EnviarCorreo(result.Correo!, "Recuperar Acceso Sistema", html);
 
                     resp.Codigo = 1;
                     resp.Mensaje = "OK";
@@ -208,7 +208,7 @@ namespace ReworkApi.Controllers
                 else
                 {
                     resp.Codigo = 0;
-                    resp.Mensaje = "No hay usuarios registrados con esa identificación";
+                    resp.Mensaje = "No hay usuarios registrados con ese nombre";
                     resp.Contenido = false;
                     return Ok(resp);
                 }
