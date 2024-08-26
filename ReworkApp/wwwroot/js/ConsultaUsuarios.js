@@ -6,3 +6,10 @@
         columnDefs: [{ type: 'string', target: [0] }]
     });
 });
+
+$(document).on("click", ".Modales", function () {
+
+    $("#id_usuario").val($(this).attr("data-id"));
+    $("#Nombre").text($(this).attr("data-name"));
+
+});

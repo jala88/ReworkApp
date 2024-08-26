@@ -15,5 +15,7 @@ namespace ReworkApp.Models
         Respuesta ActualizarUsuario(Usuario ent);
 
         Respuesta RecuperarAcceso(string Nombre);
+
+        Respuesta CambiarEstadoUsuario(Usuario ent);
     }
 }

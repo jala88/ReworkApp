@@ -32,7 +32,7 @@ namespace ReworkApi.Controllers
 
                 if (result != null)
                 {
-                    result.Token = GenerarToken(result.id_usuario, result.id_perfil);
+                    result.Token = GenerarToken(result.Id_usuario, result.Id_perfil);
 
                     resp.Codigo = 1;
                     resp.Mensaje = "OK";
@@ -139,19 +139,18 @@ namespace ReworkApi.Controllers
             }
         }
 
-        [Authorize]
+        
         [HttpPut]
         [Route("ActualizarUsuario")]
         public async Task<IActionResult> ActualizarUsuario(Usuario ent)
         {
-            if (!EsAdministrador())
-                return StatusCode(403);
+            
 
             Respuesta resp = new Respuesta();
 
             using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:DefaultConnection").Value))
             {
-                var result = await context.ExecuteAsync("ActualizarUsuario", new { ent.id_usuario, ent.Nombre, ent.Correo, ent.id_perfil}, commandType: CommandType.StoredProcedure);
+                var result = await context.ExecuteAsync("ActualizarUsuario", new { ent.Id_usuario, ent.Nombre, ent.Correo, ent.Id_perfil}, commandType: CommandType.StoredProcedure);
 
                 if (result > 0)
                 {
@@ -188,7 +187,7 @@ namespace ReworkApi.Controllers
                     var VigenciaTemporal = DateTime.Now.AddMinutes(30);
 
                     await context.ExecuteAsync("ActualizarContrasenna",
-                        new { result.id_usuario, Contrasenna, EsTemporal, VigenciaTemporal },
+                        new { result.Id_usuario, Contrasenna, EsTemporal, VigenciaTemporal },
                         commandType: CommandType.StoredProcedure);
 
                     var ruta = Path.Combine(iHost.ContentRootPath, "FormatoCorreo.html");
@@ -215,6 +214,34 @@ namespace ReworkApi.Controllers
             }
         }
 
+        [HttpPut]
+        [Route("CambiarEstadoUsuario")]
+        public async Task<IActionResult> CambiarEstadoUsuario(Usuario ent)
+        {
+
+
+            Respuesta resp = new Respuesta();
+
+            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:DefaultConnection").Value))
+            {
+                var result = await context.ExecuteAsync("CambiarEstadoUsuario", new { ent.Id_usuario }, commandType: CommandType.StoredProcedure);
+
+                if (result > 0)
+                {
+                    resp.Codigo = 1;
+                    resp.Mensaje = "OK";
+                    resp.Contenido = true;
+                    return Ok(resp);
+                }
+                else
+                {
+                    resp.Codigo = 0;
+                    resp.Mensaje = "El estado del usuario no se pudo actualizar";
+                    resp.Contenido = false;
+                    return Ok(resp);
+                }
+            }
+        }
 
 
 

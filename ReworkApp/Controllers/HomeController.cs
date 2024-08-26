@@ -28,8 +28,8 @@ namespace ReworkApp.Controllers
                 var datos = JsonSerializer.Deserialize<Usuario>((JsonElement)resp.Contenido!);
                 HttpContext.Session.SetString("TOKEN", datos!.Token!);
                 HttpContext.Session.SetString("NOMBRE", datos!.Nombre!);
-                HttpContext.Session.SetString("ROL", datos!.id_perfil.ToString());
-                HttpContext.Session.SetInt32("CONSECUTIVO", datos!.id_usuario);
+                HttpContext.Session.SetString("ROL", datos!.Id_perfil.ToString());
+                HttpContext.Session.SetInt32("CONSECUTIVO", datos!.Id_usuario);
                 return RedirectToAction("Inicio", "Home");
             }
 
@@ -84,7 +84,7 @@ namespace ReworkApp.Controllers
             if (resp.Codigo == 1)
             {
                 var datos = JsonSerializer.Deserialize<List<Usuario>>((JsonElement)resp.Contenido!);
-                return View(datos!.Where(x => x.id_usuario != HttpContext.Session.GetInt32("CONSECUTIVO")).ToList());
+                return View(datos!.Where(x => x.Id_usuario != HttpContext.Session.GetInt32("CONSECUTIVO")).ToList());
             }
 
             return View(new List<Usuario>());
@@ -113,6 +113,20 @@ namespace ReworkApp.Controllers
         public IActionResult ActualizarUsuario(Usuario ent)
         {
             var resp = iUsuarioModel.ActualizarUsuario(ent);
+
+            if (resp.Codigo == 1)
+                return RedirectToAction("ConsultarUsuarios", "Home");
+
+            ViewBag.msj = resp.Mensaje;
+            return View();
+        }
+
+
+        [FiltroSesiones]
+        [HttpPost]
+        public IActionResult CambiarEstadoUsuario(Usuario ent)
+        {
+            var resp = iUsuarioModel.CambiarEstadoUsuario(ent);
 
             if (resp.Codigo == 1)
                 return RedirectToAction("ConsultarUsuarios", "Home");
@@ -179,15 +193,6 @@ namespace ReworkApp.Controllers
         }
 
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+      
     }
 }

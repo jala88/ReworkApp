@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Principal";
+    Layout = "~/Views/Shared/_Layout.cshtml";
    
 }
 <div class="right_col col-md-6 col-sm-10 container body" role="main">
@@ -32,7 +33,12 @@
                     <td>@item.Estado</td>
 
                     <td>
-                        <a href="@Url.Action("ActualizarUsuario","Home", new { q = item.id_usuario})">
+                            <button type="button" class="btn btn-primary Modales" data-toggle="modal" data-target="#ModalUsuarios"
+                                    data-id="@item.Id_usuario" data-name="@item.Nombre">
+                                <i class="fas fa-pen"></i>
+                            </button>
+
+                            <a href="@Url.Action("ActualizarUsuario","Home", new { q = item.Id_usuario})">
                             <i class="fa fa-user"></i>
                         </a>
                     </td>
@@ -41,7 +47,30 @@
         </tbody>
     </table>
 
-  </div>
+        <div class="modal fade" id="ModalUsuarios" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Confirmar Acciones</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    @using (Html.BeginForm("CambiarEstadoUsuario", "Home"))
+                    {
+                        <div class="modal-body">
+                            @Html.Hidden("Id_usuario", "")
+                            ¿Desea cambiar el estado del usuario <label id="Nombre"><label>?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary"> <i class="fa fa-check"></i></button>
+                        </div>
+                    } 
+                </div>
+
+            </div>
+        </div>
 </div>
 <script src="~/Page/jquery/jquery.min.js"></script>
 <script src="~/js/ConsultaUsuarios.js"></script>

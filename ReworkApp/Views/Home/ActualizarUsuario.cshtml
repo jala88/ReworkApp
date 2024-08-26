@@ -26,7 +26,7 @@
 
                 @using (Html.BeginForm("ActualizarUsuario", "Home"))
                 {
-                    @Html.HiddenFor(m => m.id_usuario)
+                @Html.HiddenFor(m => m.Id_usuario)
 
                     @Html.Label("Nombre")
                     <div class="input-group mb-3">
@@ -50,7 +50,7 @@
 
                   @Html.Label("Perfil")
                   <div class="input-group mb-3">
-                    @Html.DropDownListFor(m => m.id_perfil, ViewBag.Roles as List<SelectListItem>, new { @class = "form-control" })
+                    @Html.DropDownListFor(m => m.Id_perfil, ViewBag.Roles as List<SelectListItem>, new { @class = "form-control" })
                   </div>
 
                     <div class="row">
