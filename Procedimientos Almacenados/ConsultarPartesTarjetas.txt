@@ -1,0 +1,12 @@
+CREATE PROCEDURE [dbo].[ConsultarPartesTarjetas] 
+AS
+BEGIN
+	BEGIN
+		Select 
+			id_parte_tarjeta,
+			numero_parte,
+			id_tarjeta
+		from dbo.Parte_Tarjeta
+		order by id_parte_tarjeta asc
+	END
+END

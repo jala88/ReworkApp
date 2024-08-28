@@ -1,0 +1,7 @@
+Create PROCEDURE [dbo].[RegistrarTarjeta]
+    @numero_serie int
+AS
+BEGIN
+    INSERT INTO dbo.Tarjeta (numero_serie)
+    VALUES (@numero_serie)
+END

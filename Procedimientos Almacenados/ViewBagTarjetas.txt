@@ -1,0 +1,11 @@
+CREATE PROCEDURE [dbo].[ViewBagTarjetas] 
+AS
+BEGIN
+	BEGIN
+		Select 
+			id_tarjeta 'value',
+			numero_serie 'text'
+		FROM dbo.Tarjeta
+		order by id_tarjeta asc
+	END
+END

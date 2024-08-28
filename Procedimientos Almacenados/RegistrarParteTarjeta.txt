@@ -1,0 +1,11 @@
+CREATE PROCEDURE [dbo].[RegistrarParteTarjeta]
+    @numero_parte int,
+	@id_tarjeta int
+AS
+BEGIN
+	IF EXISTS (Select 1 from dbo.Tarjeta where id_tarjeta = @id_tarjeta)
+	BEGIN
+		INSERT INTO dbo.Parte_Tarjeta(numero_parte, id_tarjeta)
+		VALUES (@numero_parte, @id_tarjeta)
+	END
+END

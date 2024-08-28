@@ -1,0 +1,8 @@
+CREATE PROCEDURE [dbo].[ConsultarTarjetas]
+AS
+BEGIN
+	SELECT           
+		id_tarjeta
+		, numero_serie
+	FROM dbo.Tarjeta    
+END
