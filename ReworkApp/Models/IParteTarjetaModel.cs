@@ -8,5 +8,9 @@ namespace ReworkApp.Models
 
         Respuesta ConsultarPartesTarjetas();
 
+        Respuesta RegistrarParteTarjeta(ParteTarjeta ent);
+
+        
+
     }
 }

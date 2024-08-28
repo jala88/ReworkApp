@@ -74,5 +74,34 @@ namespace ReworkApi.Controllers
                 }
             }
         }
+
+        [HttpPost]
+        [Route("RegistrarParteTarjeta")]
+        public async Task<IActionResult> RegistrarParteTarjeta(ParteTarjeta ent)
+        {
+            Respuesta resp = new Respuesta();
+
+            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:DefaultConnection").Value))
+            {
+                var result = await context.ExecuteAsync("RegistrarParteTarjeta", new { ent.id_tarjeta, ent.numero_parte }, commandType: CommandType.StoredProcedure);
+
+                if (result > 0)
+                {
+
+                    resp.Codigo = 1;
+                    resp.Mensaje = "OK";
+                    resp.Contenido = result;
+                    return Ok(resp);
+                }
+                else
+                {
+                    resp.Codigo = 0;
+                    resp.Mensaje = "No se pudo registrar la tarjeta.";
+                    resp.Contenido = false;
+                    return Ok(resp);
+                }
+            }
+        }
+
     }
 }

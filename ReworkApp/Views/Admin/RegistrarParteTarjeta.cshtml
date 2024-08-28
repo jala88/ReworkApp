@@ -31,7 +31,7 @@
             @using (Html.BeginForm("RegistrarParteTarjeta", "Admin"))
             {
                 <div class="mb-3 row">
-                    <label class="col-sm-2 col-form-label">Parte de Tarjeta</label>
+                    <label class="col-sm-2 col-form-label">Número de Tarjeta</label>
                     <div class="col-sm-10">
                         @Html.DropDownListFor(m => m.id_tarjeta, ViewBag.Tarjetas as List<SelectListItem>, new { @type = "text", @class = "form-control", @placeholder = "Seleccione una tarjeta" })
                     </div>

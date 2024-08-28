@@ -101,6 +101,13 @@ namespace ReworkApp.Controllers
             return View(new List<ParteTarjeta>());
         }
 
+        [HttpPost]
+        public IActionResult RegistrarParteTarjeta(ParteTarjeta ent)
+        {
+            iParteTarjetaModel.RegistrarParteTarjeta(ent);
+            return RedirectToAction("ConsultarPartesTarjetas", "Admin");
+        }
+
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });

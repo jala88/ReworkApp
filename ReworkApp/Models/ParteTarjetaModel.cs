@@ -43,5 +43,21 @@ namespace ReworkApp.Models
         }
 
 
+        public Respuesta RegistrarParteTarjeta(ParteTarjeta ent)
+        {
+            using (httpClient)
+            {
+                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "ParteTarjeta/RegistrarParteTarjeta";
+                JsonContent body = JsonContent.Create(ent);
+                var resp = httpClient.PostAsync(url, body).Result;
+
+                if (resp.IsSuccessStatusCode)
+                    return resp.Content.ReadFromJsonAsync<Respuesta>().Result!;
+                else
+                    return new Respuesta();
+            }
+        }
+
+
     }
 }
