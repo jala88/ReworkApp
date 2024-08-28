@@ -1,0 +1,48 @@
+﻿@model List<ReworkApp.Entities.Tarjeta>
+
+@{
+    ViewData["Title"] = "Tarjetas";
+}
+
+<!-- page content -->
+<div class="right_col col-md-10 col-sm-10 container body" role="main">
+
+    <div class="row">
+        <div class="col-md-10 col-sm-10 ">
+
+            <div class="dashboard_graph">
+
+                <div class="row x_title">
+                    <div class="col-md-6 ">
+                        <h3>Tarjetas <small></small></h3>
+                        <br />
+                        <a href="@Url.Action("RegistrarTarjeta","Admin")" class="btn btn-primary">Nueva tarjeta</a>
+                    </div>
+                </div>
+
+                <div class="row">
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-md-4 col-sm-6 mb-4">
+                            <div class="card border-secondary shadow-sm">
+                                <div class="card-body">
+                                    <h5 class="card-title">Id: @item.id_tarjeta</h5>
+                                    <p class="card-text">Número de serie: @item.numero_serie</p>
+                                    <a href="@Url.Action("EditarTarjeta","Admin")" class="btn btn-primary">Editar</a>
+                                    <a href="@Url.Action("EliminarTarjeta","Admin")" class="btn btn-danger">Eliminar</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<br />
+
+</div>
+<!-- /page content -->

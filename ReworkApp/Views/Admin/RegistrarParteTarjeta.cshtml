@@ -1,0 +1,56 @@
+﻿@model ReworkApp.Entities.ParteTarjeta
+
+@{
+    ViewData["Title"] = "Registrar Parte Tarjeta";
+}
+
+<!-- page content -->
+<div class="right_col col-md-10 col-sm-10 container body" role="main">
+
+
+    <div class="row">
+        <div class="col-md-10 col-sm-10 ">
+
+            <div class="dashboard_graph">
+
+                <div class="row x_title">
+                    <div class="col-md-6 ">
+                        <h3>Registre una nueva parte de tarjeta</h3>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="card col-md-5 col-sm-8 align-content-center">
+            <div class="card-header">
+                Tarjeta
+            </div>
+            <br />
+            @using (Html.BeginForm("RegistrarParteTarjeta", "Admin"))
+            {
+                <div class="mb-3 row">
+                    <label class="col-sm-2 col-form-label">Parte de Tarjeta</label>
+                    <div class="col-sm-10">
+                        @Html.DropDownListFor(m => m.id_tarjeta, ViewBag.Tarjetas as List<SelectListItem>, new { @type = "text", @class = "form-control", @placeholder = "Seleccione una tarjeta" })
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label class="col-sm-2 col-form-label">Parte de Tarjeta</label>
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.numero_parte, new { @type = "text", @class = "form-control", @placeholder = "Escriba el número de parte" })
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary mb-3">Registrar</button>
+                </div>
+            }
+        </div>
+
+
+    </div>
+    <br />
+
+</div>
+<!-- /page content -->

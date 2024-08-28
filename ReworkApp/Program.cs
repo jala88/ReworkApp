@@ -10,6 +10,8 @@ builder.Services.AddScoped<IUsuarioModel, UsuarioModel>();
 builder.Services.AddScoped<IComunModel, ComunModel>();
 builder.Services.AddScoped<IRolModel, RolModel>();
 builder.Services.AddScoped<ITipoRework, TipoReworkModel>();
+builder.Services.AddScoped<ITarjeta, TarjetaModel>();
+builder.Services.AddScoped<IParteTarjetaModel, ParteTarjetaModel>();
 
 
 
