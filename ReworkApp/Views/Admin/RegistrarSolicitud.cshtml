@@ -1,0 +1,66 @@
+﻿@model ReworkApp.Entities.Solicitud
+
+@{
+    ViewData["Title"] = "Registrar Solicitud";
+}
+
+<!-- page content -->
+<div class="right_col col-md-10 col-sm-10 container body" role="main">
+
+    <div class="row">
+        <div class="col-md-10 col-sm-10 ">
+
+            <div class="dashboard_graph">
+
+                <div class="row x_title">
+                    <div class="col-md-6 ">
+                        <h3>Registre una nueva solicitud de Rework</h3>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="card col-md-5 col-sm-8 align-content-center">
+            <div class="card-header">
+            </div>
+            <br />
+            @using (Html.BeginForm("RegistrarSolicitud", "Admin"))
+            {
+                <div class="mb-3 row">
+                    <label class="col-sm-2 col-form-label">Asigne un usuario</label>
+                    <div class="col-sm-10">
+                        @Html.DropDownListFor(m => m.id_usuario, ViewBag.Usuarios as List<SelectListItem>, new { @type = "text", @class = "form-control", @placeholder = "Seleccione un usuario", @id = "UsuarioId" })
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label class="col-sm-2 col-form-label">Número de Tarjeta</label>
+                    <div class="col-sm-10">
+                        @Html.DropDownListFor(m => m.id_tarjeta, ViewBag.Tarjetas as List<SelectListItem>, new { @type = "text", @class = "form-control", @placeholder = "Seleccione una tarjeta", @id = "TarjetaId" })
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label class="col-sm-2 col-form-label">Número de Parte de Tarjeta</label>
+                    <div class="col-sm-10">
+                        @Html.DropDownListFor(m => m.id_parte_tarjeta, ViewBag.PartesTarjetasId as List<SelectListItem>, new { @type = "text", @class = "form-control", @placeholder = "Seleccione una parte de tarjeta", @id = "ParteTarjetaId" })
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label class="col-sm-2 col-form-label">Tipo de Rework</label>
+                    <div class="col-sm-10">
+                        @Html.DropDownListFor(m => m.id_tipo_rework, ViewBag.TipoReworks as List<SelectListItem>, new { @type = "text", @class = "form-control", @placeholder = "Seleccione una parte de tarjeta", @id = "TipoReworkId" })
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary mb-3">Registrar</button>
+                </div>
+            }
+        </div>
+    </div>
+    <br />
+
+</div>
+
+<script src="~/js/RegistrarSolicitud.js"></script>

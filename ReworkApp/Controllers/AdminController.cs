@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 namespace ReworkApp.Controllers
 {
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public class AdminController(ITipoRework iTipoReworkModel, ITarjeta iTarjetaModel, IParteTarjetaModel iParteTarjetaModel) : Controller
+    public class AdminController(ITipoRework iTipoReworkModel, ITarjeta iTarjetaModel, IParteTarjetaModel iParteTarjetaModel, IUsuarioModel iUsuarioModel) : Controller
     {
         public IActionResult TipoReworks()
         {
@@ -107,6 +107,40 @@ namespace ReworkApp.Controllers
             iParteTarjetaModel.RegistrarParteTarjeta(ent);
             return RedirectToAction("ConsultarPartesTarjetas", "Admin");
         }
+
+        [HttpGet]
+        public IActionResult RegistrarSolicitud()
+        {
+            
+            var resp_usuarios = iUsuarioModel.ViewBagUsuarios();
+            var resp_tarjetas = iParteTarjetaModel.ViewBagTarjetasSolicitud();
+            var resp_reworks = iTipoReworkModel.ViewBagTipoReworks();
+            
+            ViewBag.Usuarios = JsonSerializer.Deserialize<List<SelectListItem>>((JsonElement)resp_usuarios.Contenido!);
+            ViewBag.Tarjetas = JsonSerializer.Deserialize<List<SelectListItem>>((JsonElement)resp_tarjetas.Contenido!);
+            ViewBag.TipoReworks = JsonSerializer.Deserialize<List<SelectListItem>>((JsonElement)resp_reworks.Contenido!);
+            ViewBag.PartesTarjetasId = new List<SelectListItem>();
+
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult ViewBagPartesTarjetasId(int id_tarjeta)
+        {
+            var resp = iParteTarjetaModel.ViewBagPartesTarjetasId(id_tarjeta);
+            var partesTarjetas = JsonSerializer.Deserialize<List<SelectListItem>>((JsonElement)resp.Contenido!);
+
+            var resultado = partesTarjetas.Select(pt => new
+            {
+                value = pt.Value,
+                text = pt.Text
+            });
+
+            return Json(resultado);
+        }
+
+
+
 
         public IActionResult Error()
         {

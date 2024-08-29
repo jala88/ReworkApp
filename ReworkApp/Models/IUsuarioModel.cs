@@ -17,5 +17,6 @@ namespace ReworkApp.Models
         Respuesta RecuperarAcceso(string Nombre);
 
         Respuesta CambiarEstadoUsuario(Usuario ent);
+        Respuesta ViewBagUsuarios();
     }
 }

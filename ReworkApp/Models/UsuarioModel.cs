@@ -126,6 +126,24 @@ namespace ReworkApp.Models
             }
         }
 
+        public Respuesta ViewBagUsuarios()
+        {
+            using (httpClient)
+            {
+                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Solicitud/ViewBagUsuarios";
+                var resp = httpClient.GetAsync(url).Result;
+
+
+                if (resp.IsSuccessStatusCode)
+                    return resp.Content.ReadFromJsonAsync<Respuesta>().Result!;
+                else
+                    return new Respuesta();
+
+            }
+
+
+        }
+
 
 
     }

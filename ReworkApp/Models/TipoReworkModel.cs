@@ -39,6 +39,23 @@ namespace ReworkApp.Models
             }
         }
 
+        public Respuesta ViewBagTipoReworks()
+        {
+            using (httpClient)
+            {
+                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Solicitud/ViewBagTipoReworks";
+                var resp = httpClient.GetAsync(url).Result;
+
+
+                if (resp.IsSuccessStatusCode)
+                    return resp.Content.ReadFromJsonAsync<Respuesta>().Result!;
+                else
+                    return new Respuesta();
+
+            }
+
+
+        }
 
     }
 }

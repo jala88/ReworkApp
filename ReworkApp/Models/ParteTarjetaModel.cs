@@ -25,6 +25,41 @@ namespace ReworkApp.Models
 
         }
 
+        public Respuesta ViewBagTarjetasSolicitud()
+        {
+            using (httpClient)
+            {
+                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Solicitud/ViewBagTarjetasSolicitud";
+                var resp = httpClient.GetAsync(url).Result;
+
+
+                if (resp.IsSuccessStatusCode)
+                    return resp.Content.ReadFromJsonAsync<Respuesta>().Result!;
+                else
+                    return new Respuesta();
+
+            }
+
+
+        }
+
+        public Respuesta ViewBagPartesTarjetasId(int id_tarjeta)
+        {
+            using (httpClient)
+            {
+
+                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + $"Solicitud/ViewBagPartesTarjetasId?id_tarjeta={id_tarjeta}";
+
+                var resp = httpClient.GetAsync(url).Result;
+
+                if (resp.IsSuccessStatusCode)
+                    return resp.Content.ReadFromJsonAsync<Respuesta>().Result!;
+                else
+                    return new Respuesta();
+            }
+        }
+
+
         public Respuesta ConsultarPartesTarjetas()
         {
             using (httpClient)

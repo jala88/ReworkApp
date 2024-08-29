@@ -10,7 +10,9 @@ namespace ReworkApp.Models
 
         Respuesta RegistrarParteTarjeta(ParteTarjeta ent);
 
-        
+        Respuesta ViewBagPartesTarjetasId(int id_tarjeta);
+        Respuesta ViewBagTarjetasSolicitud();
+
 
     }
 }

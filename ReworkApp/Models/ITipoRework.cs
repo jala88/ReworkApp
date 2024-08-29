@@ -6,5 +6,7 @@ namespace ReworkApp.Models
     {
         Respuesta RegistrarTipoRework(TipoRework ent);
         Respuesta ConsultarTipoReworks();
+
+        Respuesta ViewBagTipoReworks();
     }
 }
