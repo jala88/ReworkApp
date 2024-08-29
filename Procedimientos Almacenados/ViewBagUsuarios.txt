@@ -1,0 +1,12 @@
+CREATE PROCEDURE [dbo].[ViewBagUsuarios] 
+AS
+BEGIN
+	BEGIN
+		Select 
+			id_usuario 'value',
+			correo 'text'
+		FROM dbo.Usuario
+		where id_perfil = 2
+		order by id_usuario asc
+	END
+END

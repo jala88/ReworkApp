@@ -1,0 +1,12 @@
+CREATE PROCEDURE [dbo].[ViewBagPartesTarjetasId]
+	@id_tarjeta int
+AS
+BEGIN
+	BEGIN
+		Select 
+			id_parte_tarjeta 'value',
+			numero_parte 'text'
+		FROM dbo.Parte_Tarjeta
+		where id_tarjeta = @id_tarjeta
+	END
+END

@@ -1,0 +1,10 @@
+CREATE PROCEDURE [dbo].[ViewBagTipoReworks]
+AS
+BEGIN
+	BEGIN
+		Select 
+			id_tipo_rework 'value',
+			descripcion 'text'
+		FROM dbo.Tipo_Rework
+	END
+END
